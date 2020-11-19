@@ -12,27 +12,73 @@ let sections = [
 	{
 		name: 'Hello',
 		components: () => {
-			const componentNames = [
-				'hello-name',
-			];
-			return componentNames.map(componentName => {
+			const componentNames = ['hello-name'];
+			return componentNames.map((componentName) => {
 				const filename = upperFirst(camelCase(componentName));
-				return path.resolve(__dirname, `src/components/${componentName}`, `${filename}.js`)
+				return path.resolve(
+					__dirname,
+					`src/components/${componentName}`,
+					`${filename}.js`,
+				);
 			});
-		}
+		},
 	},
 	{
 		name: 'Button',
 		components: () => {
-			const componentNames = [
-				'button-test',
-			];
-			return componentNames.map(componentName => {
+			const componentNames = ['button-test'];
+			return componentNames.map((componentName) => {
 				const filename = upperFirst(camelCase(componentName));
 				// console.log(path.resolve(__dirname, `src/components/${componentName}`, `${filename}.js`))
-				return path.resolve(__dirname, `src/components/${componentName}`, `${filename}.js`)
+				return path.resolve(
+					__dirname,
+					`src/components/${componentName}`,
+					`${filename}.js`,
+				);
 			});
-		}
+		},
+	},
+	{
+		name: 'CreateStorage',
+		components: () => {
+			const componentNames = ['create-storage'];
+			return componentNames.map((componentName) => {
+				const filename = upperFirst(camelCase(componentName));
+				console.log(
+					path.resolve(
+						__dirname,
+						`src/components/${componentName}`,
+						`${filename}.js`,
+					),
+				);
+				return path.resolve(
+					__dirname,
+					`src/components/${componentName}`,
+					`${filename}.js`,
+				);
+			});
+		},
+	},
+	{
+		name: 'UpdateStorage',
+		components: () => {
+			const componentNames = ['update-storage'];
+			return componentNames.map((componentName) => {
+				const filename = upperFirst(camelCase(componentName));
+				console.log(
+					path.resolve(
+						__dirname,
+						`src/components/${componentName}`,
+						`${filename}.js`,
+					),
+				);
+				return path.resolve(
+					__dirname,
+					`src/components/${componentName}`,
+					`${filename}.js`,
+				);
+			});
+		},
 	},
 	// {
 	// 	name: 'Core',
@@ -48,7 +94,7 @@ module.exports = {
 	title: `${upperFirst(camelCase(name))} v${version}`,
 	ribbon: {
 		url: repository.url,
-		text: 'View on GitHub'
+		text: 'View on GitHub',
 	},
 	styles,
 	theme,
@@ -84,4 +130,3 @@ module.exports = {
 		},
 	},
 };
-
