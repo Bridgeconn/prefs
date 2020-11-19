@@ -1,16 +1,19 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-export default function useSavetoFile(key, values, backendfn) {
-  const [ initialValue ] = React.useState(backendfn.getInitialValue(key, values))
-  const [backendfunction, setBackendFunction] = React.useState(backendfn.backend(key, values))
+export default function useSavetoFile({ key, value, backendfn }) {
+  const [ initialValue ] = useState(
+    backendfn.getInitialValue(key, value)
+  )
+  const [backendfunction, setBackendFunction] = useState(
+    backendfn.backend(key, value)
+  )
 
   useEffect(() => {
-    backendfn.backend(key, values)
+    backendfn.backend(key, value)
   }, [backendfunction])
 
   return {
-    initialValue,
-    values,
-    setBackendFunction,
+    state: { initialValue, value },
+    actions: { setBackendFunction },
   };
 }
