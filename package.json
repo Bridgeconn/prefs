@@ -13,6 +13,7 @@
     "node": ">=4"
   },
   "scripts": {
+    "dev": "react-scripts start",
     "build": "react-scripts build",
     "prepublishOnly": "rm -fr ./dist & babel ./src --out-dir ./dist -s inline",
     "predeploy": "yarn styleguide:build",
@@ -28,9 +29,12 @@
   },
   "dependencies": {
     "@material-ui/core": "^4.7.0",
+    "@material-ui/icons": "4.9.1",
     "cypress": "^3.6.1",
     "dog-names": "^2.0.0",
+    "file-saver": "^2.0.2",
     "lodash": "^4.17.15",
+    "localforage": "1.9.0",
     "prop-types": "^15.7.2",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
