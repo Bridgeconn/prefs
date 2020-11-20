@@ -1,30 +1,12 @@
 import { Box, Button, FormControl, FormLabel, Grid, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Paper, Select, TextField, Typography } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
-import useSavetoLocal from './useSavetoFile'
-import * as helper from "../../core/backend"
 import { WriteToFile } from '../../core/writefile'
-import useWritetoFile from './useWritetoFile'
+import useWritetoFile from '../FileSaveTest/useWritetoFile'
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
-const localStorageConfig = {
-  type: "localStorage",
-  name: "profile",
-  maxSize: "5MB",
-}
-const localForageConfig = {
-  type: "localForage",
-  name: "profile",
-  maxSize: "5MB",
-}
 
-const fsConfig = {
-  type: "fs",
-  name: "profile_default",
-  maxSize: "5MB",
-}
-
-export default function FileSaveTest() {
+export default function CustomSave() {
     const [values, setValues] = useState({
         first:"",
         last: "",
@@ -32,22 +14,13 @@ export default function FileSaveTest() {
         password: "",
         showPassword: false,
       });
-    const [selectedBackendstore, setSelectedBackendstore  ] = useState(localStorageConfig)
-    
-    const { 
-        state: { initialValue, value }, 
-        actions: { setBackendFunction } 
-    } = useSavetoLocal ({
-            key: "profile",  
-            value: values, 
-            backendfn: helper
-        })
-    const {
-      state: { validationError,
-        validationMessage },
-        action: setBackend
-    } = useWritetoFile({ key: "profile",  values: values, backendfn: selectedBackendstore })
-
+      const {
+        state: { validationError,
+          validationMessage },
+          action: setBackend
+      } = useWritetoFile({ key: "profile",  values: values, backendfn: WriteToFile })
+      const [showLoading, setShowLoading] = useState(false)
+      
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
       };
@@ -60,22 +33,14 @@ export default function FileSaveTest() {
         event.preventDefault();
       };
 
-    useEffect(() => {
-        setValues(initialValue)
-    }, [])
-
-    useEffect(() => {
-        setBackendFunction("profile", value, helper)
-    }, [values])
-
-    useEffect(() => {
+    const WriteAndDownload = () => {
       setBackend()
-    }, [selectedBackendstore])
-
-    const handleBackendSave = (event) => {
-      setSelectedBackendstore(event.target.value)
+      if(validationError) setShowLoading(true)
+      let timer1 = setTimeout(() => setShowLoading(false), 2000)
+           return () => {
+        clearTimeout(timer1)
+      }
     }
-
 
     return (
         <>
@@ -87,6 +52,12 @@ export default function FileSaveTest() {
               autoComplete="off"
               
             >
+            {showLoading && (
+              <Typography
+                variant="h6"
+                color="inherit"
+              >{validationMessage}</Typography>
+            )}
               <Typography
                 variant="h6"
                 color="inherit"
@@ -148,28 +119,12 @@ export default function FileSaveTest() {
                     }
                     labelWidth={70}
                   />
-                   <FormLabel component="legend">
-          <Box fontWeight={600} m={1}>
-            Select Backend
-          </Box>
-        </FormLabel>
-        <Select
-          variant="outlined"
-          value={selectedBackendstore}
-          onChange={(event) => handleBackendSave(event)}
-        >
-            <MenuItem value={localStorageConfig}>
-              localStorage
-            </MenuItem>
-            <MenuItem value={localForageConfig}>
-              localForage
-            </MenuItem>
-            <MenuItem value={fsConfig}>
-              fsWrite
-            </MenuItem>
-          </Select>
                 </FormControl>
               </div>
+              <Button
+            variant="contained"
+            onClick={WriteAndDownload}
+            >CustomWrite</Button>
             </form>
           </Grid>
         </Grid>

@@ -47,6 +47,19 @@ let sections = [
 			});
 		}
 	},
+	{
+		name: 'CustomSave',
+		components: () => {
+			const componentNames = [
+				'CustomSave',
+			];
+			return componentNames.map(componentName => {
+				const filename = upperFirst(camelCase(componentName));
+				// console.log(path.resolve(__dirname, `src/components/${componentName}`, `${filename}.js`))
+				return path.resolve(__dirname, `src/components/${componentName}`, `${filename}.js`)
+			});
+		}
+	},
 	// {
 	// 	name: 'Core',
 	// 	content: 'src/core/README.md',
