@@ -47,8 +47,7 @@ export default function FileSaveTest() {
         validationMessage },
         action: setBackend
     } = useWritetoFile({ key: "settings",  values: values, backendfn: selectedBackendstore, tag: "app" })
-    // console.log(validator,
-    //   validationMessage )
+    
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
       };
@@ -63,14 +62,17 @@ export default function FileSaveTest() {
 
     useEffect(() => {
         setValues(initialValue)
-    }, [])
+    },[])
 
     useEffect(() => {
         setBackendFunction("profile", value, helper)
     }, [values])
 
     const handleBackendSave = (event) => {
+      // console.log(validator)
+      if(validator ===true) alert(validationMessage)
       setSelectedBackendstore(event.target.value)
+      
     }
 
 

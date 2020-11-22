@@ -16,7 +16,7 @@ export default function useValidation({ key, backendStore }) {
     const keyExists = useCallback(() => {
         switch (backendStore) {
             case 'localStorage':
-                console.log(localStorage.getItem(`${key}_default1`) !== null)
+                console.log(localStorage.getItem(`${key}_default`))
                 if (localStorage.getItem(`${key}_default`) !== null) {
                     setValidator({ ...validator, [backendStore]: true });
                     SetValidatoinMessage("Same Key exists")
@@ -25,8 +25,7 @@ export default function useValidation({ key, backendStore }) {
                 }
               break;
             case 'localForage':
-                localForage.getItem(`${key}_default1`, (err, value) => {
-                    console.log(value)
+                localForage.getItem(`${key}`, (err, value) => {
                   if(value){
                     setValidator({ ...validator, [backendStore]: true });
                     SetValidatoinMessage("Same Key exists")

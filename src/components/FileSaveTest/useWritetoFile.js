@@ -1,4 +1,5 @@
 import * as localForage from 'localforage';
+import { includes } from 'lodash';
 import { useCallback, useEffect, useState } from 'react';
 import { backend } from "../../core/backend";
 import { WriteToFile } from "../../core/writefile";
@@ -31,7 +32,7 @@ export default function useWritetoFile({ key, values, backendfn, tag }) {
           storeToDefaultDB(backendfn, tag)
         }
       })
-    },[key, backendfn])
+    },[key, backendfn, values, tag])
 
     const storeToCustonDB = (customFn) => {
       customFn(key, JSON.stringify(values))
@@ -40,11 +41,8 @@ export default function useWritetoFile({ key, values, backendfn, tag }) {
     const storeToDefaultDB = (isDefault) => {
       switch (isDefault.type) {
         case 'localStorage':
-          if(validator.localStorage===false){
             backend(`${key}_default`, values)
             backend(`__tag_${tag}`, key)
-            // setValidator({ ...validator, ['localStorage']: false });
-          }
           break;
         case 'localForage':
           if(validator.localForage===false){
@@ -53,15 +51,14 @@ export default function useWritetoFile({ key, values, backendfn, tag }) {
                 console.log("value from indexed db", value)
               })
             });
-            console.log(`__tag_${tag}`)
             localForage.getItem(`__tag_${tag}`, (err, value) => {
-              var _key = [value]
               if(value!==null) {
+                let _key = [value]
                 _key.push(key)
-                console.log(_key)
                 localForage.setItem(`__tag_${tag}`, _key, (err) => {
                 console.log(err)
                 });
+                _key = []
               }else {
                 localForage.setItem(`__tag_${tag}`, key, (err) => {
                   console.log(err)
