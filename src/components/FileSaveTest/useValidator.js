@@ -1,18 +1,41 @@
-// import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
+import * as localForage from 'localforage';
 
-// export default function useValidation({ key }) {
-//     const [ validationError, SetValidatoinError] = useState(false)
-//     const [ validationMessage, SetValidatoinMessage] = useState(false)
+export default function useValidation({ key, backendStore }) {
+    const [validator, setValidator] = useState({
+        localStorage:false,
+        localForage: false,
+        fs: false,
+      });
+    const [ validationMessage, SetValidatoinMessage] = useState(false)
+    
+    useEffect(() => {
+        keyExists()
+    }, [key, backendStore])
 
-//     const keyExists = () => {
-//         if (localStorage.getItem(key) !== null) {
-//             SetValidatoinError(true)
-//             SetValidatoinMessage("Same Key exists")
-//         }
-//         else {
-//             SetValidatoinError(false)
-//             SetValidatoinMessage("Sucessfully created")
-//         }
-//     }
-// 	return { validationError, validationMessage, keyExists };
-// }
+    const keyExists = useCallback(() => {
+        switch (backendStore) {
+            case 'localStorage':
+                console.log(localStorage.getItem(`${key}_default`))
+                if (localStorage.getItem(`${key}_default`) !== null) {
+                    setValidator({ ...validator, [backendStore]: true });
+                    SetValidatoinMessage("Same Key exists")
+                }else {
+                    setValidator({ ...validator, [backendStore]: false });
+                }
+              break;
+            case 'localForage':
+                localForage.getItem(`${key}`, (err, value) => {
+                  if(value){
+                    setValidator({ ...validator, [backendStore]: true });
+                    SetValidatoinMessage("Same Key exists")
+                  }else if( value=== null ) {
+                    setValidator({ ...validator, [backendStore]: false });
+                    SetValidatoinMessage("")
+                  }
+                });
+              break;
+          }
+    },[key, backendStore] )
+	return { validator, validationMessage, keyExists, setValidator };
+}
