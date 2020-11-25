@@ -1,12 +1,14 @@
 import { Box, Button, FormControl, FormLabel, Grid, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Paper, Select, TextField, Typography } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { WriteToFile } from '../../core/writefile'
-import useWritetoFile from '../FileSaveTest/useWritetoFile'
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import { ProfileStyles } from '../FileSaveTest/useStyles/ProfileStyles';
+import usePrefs from '../FileSaveTest/usePrefs';
 
 
 export default function CustomSave() {
+  const classes = ProfileStyles()
     const [values, setValues] = useState({
         first:"",
         last: "",
@@ -17,8 +19,12 @@ export default function CustomSave() {
       const {
         state: { validationError,
           validationMessage },
-          action: setBackend
-      } = useWritetoFile({ key: "profile",  values: values, backendfn: WriteToFile })
+          action: setBackendStore
+      } = usePrefs({ 
+        key: "profile",  
+        values: values, 
+        backendfn: WriteToFile 
+      })
       const [showLoading, setShowLoading] = useState(false)
       
     const handleChange = (prop) => (event) => {
@@ -34,7 +40,7 @@ export default function CustomSave() {
       };
 
     const WriteAndDownload = () => {
-      setBackend()
+      setBackendStore()
       if(validationError) setShowLoading(true)
       let timer1 = setTimeout(() => setShowLoading(false), 2000)
            return () => {
@@ -67,6 +73,7 @@ export default function CustomSave() {
                 </Box>
               </Typography>
                   <TextField
+                    className={classes.textfieldsmall}
                     label="First Name"
                     variant="outlined"
                     type="text"
@@ -74,6 +81,7 @@ export default function CustomSave() {
                     onChange={handleChange('first')}
                   />
                   <TextField
+                    className={classes.textfieldsmall}
                     label="Last Name"
                     variant="outlined"
                     value={values.last}
@@ -82,10 +90,11 @@ export default function CustomSave() {
                   />
               <div>
                     <TextField
-                    label="Email"
+                      className={classes.textfieldsmall}
+                      label="Email"
                       variant="outlined"
                       value={values.email}
-                    onChange={handleChange('email')}
+                      onChange={handleChange('email')}
                     />
               </div>
               <div>
@@ -98,6 +107,7 @@ export default function CustomSave() {
                   <OutlinedInput
                     id="outlined-adornment-password"
                     name="password"
+                    className={classes.textfieldsmall}
                     onChange={handleChange('password')}
                     type={values.showPassword ? "text" : "password"}
                     value={values.password}

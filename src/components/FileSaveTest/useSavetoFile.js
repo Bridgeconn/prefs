@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 
-export default function useSavetoLocal({ key, value, backendfn }) {
+export default function useSavetoLocal({ 
+  key, 
+  value, 
+  backendfn 
+}) {
   const [ initialValue ] = useState(
     backendfn.getInitialValue(key, value)
   )

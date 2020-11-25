@@ -3,15 +3,17 @@ import React, { useEffect, useState } from 'react'
 import useSavetoLocal from './useSavetoFile'
 import * as helper from "../../core/backend"
 import { WriteToFile } from '../../core/writefile'
-import useWritetoFile from './useWritetoFile'
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import { ProfileStyles } from './useStyles/ProfileStyles';
+import usePrefs from './usePrefs'
 
 const localStorageConfig = {
   type: "localStorage",
   name: "profile",
   maxSize: "5MB",
 }
+
 const localForageConfig = {
   type: "localForage",
   name: "profile",
@@ -25,6 +27,7 @@ const fsConfig = {
 }
 
 export default function FileSaveTest() {
+    const classes = ProfileStyles();
     const [values, setValues] = useState({
         first:"",
         last: "",
@@ -43,12 +46,16 @@ export default function FileSaveTest() {
             backendfn: helper
         })
     const {
-      state: { validator,
-        validationMessage },
-        action: setBackend
-    } = useWritetoFile({ key: "settings",  values: values, backendfn: selectedBackendstore, tag: "app" })
+      state: { 
+        validator,
+        validationMessage 
+      },
+        action: { 
+          setBackendStore, 
+          updateStorage }
+    } = usePrefs({ key: "settings1",  values: values, backendfn: selectedBackendstore, tag: "profile" })
     
-    const handleChange = (prop) => (event) => {
+      const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
       };
     
@@ -64,15 +71,9 @@ export default function FileSaveTest() {
         setValues(initialValue)
     },[])
 
-    useEffect(() => {
-        setBackendFunction("profile", value, helper)
-    }, [values])
-
     const handleBackendSave = (event) => {
-      // console.log(validator)
       if(validator ===true) alert(validationMessage)
       setSelectedBackendstore(event.target.value)
-      
     }
 
 
@@ -95,6 +96,7 @@ export default function FileSaveTest() {
                 </Box>
               </Typography>
                   <TextField
+                    className={classes.textfieldsmall}
                     label="First Name"
                     variant="outlined"
                     type="text"
@@ -102,6 +104,7 @@ export default function FileSaveTest() {
                     onChange={handleChange('first')}
                   />
                   <TextField
+                    className={classes.textfieldsmall}
                     label="Last Name"
                     variant="outlined"
                     value={values.last}
@@ -110,10 +113,11 @@ export default function FileSaveTest() {
                   />
               <div>
                     <TextField
-                    label="Email"
+                      className={classes.textfieldsmall}
+                      label="Email"
                       variant="outlined"
                       value={values.email}
-                    onChange={handleChange('email')}
+                      onChange={handleChange('email')}
                     />
               </div>
               <div>
@@ -126,6 +130,7 @@ export default function FileSaveTest() {
                   <OutlinedInput
                     id="outlined-adornment-password"
                     name="password"
+                    className={classes.textfieldsmall}
                     onChange={handleChange('password')}
                     type={values.showPassword ? "text" : "password"}
                     value={values.password}
@@ -153,6 +158,7 @@ export default function FileSaveTest() {
           </Box>
         </FormLabel>
         <Select
+          className={classes.textfieldsmall}
           variant="outlined"
           value={selectedBackendstore}
           onChange={(event) => handleBackendSave(event)}
