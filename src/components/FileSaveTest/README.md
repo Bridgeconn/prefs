@@ -72,6 +72,7 @@ function Component() {
 
     useEffect(() => {
         initialValue.then((res) => {
+          if(res!==null)
             setValues(res)
         })
     },[])
