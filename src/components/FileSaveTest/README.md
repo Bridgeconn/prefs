@@ -71,7 +71,9 @@ function Component() {
       };
 
     useEffect(() => {
+      console.log(initialValue)
         initialValue.then((res) => {
+          if(res!==null)
             setValues(res)
         })
     },[])
