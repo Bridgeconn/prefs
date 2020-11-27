@@ -44,18 +44,16 @@ function Component() {
     const {
       state: { 
         validator,
-        validationMessage,
-        initialValue
+        validationMessage
       },
         action: {
-          updateStorage,
-          deleteStorage
+            readItem,
+            setItem,
+            deleteItem,
+            custom,
         }
-    } = usePrefs({ 
-            key: "settings2",  
-            values: values, 
-            backendfn: selectedBackendstore, 
-            tag: "profile",
+    } = usePrefs({
+            backendfn: selectedBackendstore,
         })
     
       const handleChange = (prop) => (event) => {
@@ -71,8 +69,9 @@ function Component() {
       };
 
     useEffect(() => {
-      console.log(initialValue)
-        initialValue.then((res) => {
+        readItem({ 
+            key: 'settings'
+        }).then((res) => {
           if(res!==null)
             setValues(res)
         })
@@ -82,12 +81,16 @@ function Component() {
       setSelectedBackendstore(event.target.value)
     }
 
-    const update = (event) => {
-        updateStorage()
+    const saveItems = (event) => {
+        setItem({
+            key: 'settings', 
+            values: values, 
+            tag: 'app'
+        })
     }
 
-    const deleteStore = () => {
-        deleteStorage()
+    const deletItems = () => {
+        deleteItem({ key: 'settings' })
     }
 
   const form = React.useMemo(
@@ -107,6 +110,27 @@ function Component() {
                 <Box fontWeight={600} m={1}>
                   Settings
                 </Box>
+                <FormLabel component="legend">
+          <Box fontWeight={600} m={1}>
+            Select Backend
+          </Box>
+        </FormLabel>
+        <Select
+          className={classes.textfieldsmall}
+          variant="outlined"
+          value={selectedBackendstore}
+          onChange={(event) => handleBackendSave(event)}
+        >
+            <MenuItem value={localStorageConfig}>
+              localStorage
+            </MenuItem>
+            <MenuItem value={localForageConfig}>
+              localForage
+            </MenuItem>
+            <MenuItem value={fsConfig}>
+              fsWrite
+            </MenuItem>
+          </Select>
               </Typography>
                   <TextField
                     className={classes.textfieldsmall}
@@ -165,42 +189,21 @@ function Component() {
                     }
                     labelWidth={70}
                   />
-        <FormLabel component="legend">
-          <Box fontWeight={600} m={1}>
-            Select Backend
-          </Box>
-        </FormLabel>
-        <Select
-          className={classes.textfieldsmall}
-          variant="outlined"
-          value={selectedBackendstore}
-          onChange={(event) => handleBackendSave(event)}
-        >
-            <MenuItem value={localStorageConfig}>
-              localStorage
-            </MenuItem>
-            <MenuItem value={localForageConfig}>
-              localForage
-            </MenuItem>
-            <MenuItem value={fsConfig}>
-              fsWrite
-            </MenuItem>
-          </Select>
                 </FormControl>
               </div>
               <span>
               <Button
                 variant="contained"
                 color="primary"
-                onClick={update}
+                onClick={saveItems}
               >
-              Update
+              Save
               </Button>
               <Button
                 className={classes.avataredits}
                 variant="contained"
                 color="secondary"
-                onClick={deleteStore}
+                onClick={deletItems}
               >
               Delete
               </Button>

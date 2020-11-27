@@ -3,23 +3,24 @@ import { WriteToFile } from "./writefile";
 import * as localForage from 'localforage';
 import { includes } from "lodash";
 
-export function tolocalStorageCreate (
+export function storageCreate (
     res, values, tag, validator, key, keyExists
 ) {
   keyExists()
     switch (res.type) {
         case 'localStorage':
-            backend(`${key}_default`, values)
+            backend(`${key}`, values)
             backend(`__tag_${tag}`, key)
-          break;
+        break;
         case 'localForage':
-          if(validator.localForage===false){
+          // if(validator.localForage===false){
             localForage.setItem(`${key}`, values, (err) => {
               localForage.getItem(`${key}`, (err, value) => {
-                keyExists()
+                // keyExists({ key: key })
+                return value
               })
             });
-          }
+          // }
             localForage.getItem(key, (err, value) => {
               if(value === null){
                 localForage.getItem(`__tag_${tag}`, (err, value) => {
@@ -67,7 +68,7 @@ export function tolocalStorageCreate (
       }
   };
 
-  export function deleteLocalStorage (
+  export function deleteStorage (
     res, validator, key , tag
 ) {
     switch (res.type) {
