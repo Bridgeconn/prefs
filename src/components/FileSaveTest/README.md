@@ -1,11 +1,32 @@
 
+## Usage
+`import usePrefs from 'prefs-rcl'`
+* create multiple configs object 
+`const localStorageConfig = {
+  type: "localStorage",
+  name: "profile",
+  maxSize: "5MB",
+}`
+* Pass the config through `usePrefs` hook
+`usePrefs({
+            backendfn: localStorageConfig,
+    })`
+* Trigger each function using hook actions
+`readItem({ key: 'settings' })` as this returns a promise
+`setItem({
+            key: 'settings', 
+            values: values, 
+            tag: 'app'
+        })` to set the values
+`deleteItem({ key: 'settings' })` to delete a key value
+* Backend validator passes and saves to the selected backend
 ```js
 
 import { Box, Button, FormControl, FormLabel, Grid, IconButton, InputAdornment, InputLabel, MenuItem, OutlinedInput, Paper, Select, TextField, Typography } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
-
+import PropTypes from 'prop-types';
 import { ProfileStyles } from './useStyles/ProfileStyles';
 import useSavetoLocal from './useSavetoFile'
 import usePrefs from './usePrefs'
@@ -40,7 +61,7 @@ function Component() {
         showPassword: false,
       });
     const [selectedBackendstore, setSelectedBackendstore  ] = useState(localStorageConfig)
-        
+    const [showLoading, setShowLoading] = useState(false)
     const {
       state: { 
         validator,
@@ -76,6 +97,14 @@ function Component() {
             setValues(res)
         })
     },[])
+
+    useEffect(() => {
+        if(validator) setShowLoading(true)
+        let timer1 = setTimeout(() => setShowLoading(false), 2000)
+            return () => {
+                clearTimeout(timer1)
+            }
+    },[validator, validationMessage])
 
     const handleBackendSave = (event) => {
       setSelectedBackendstore(event.target.value)

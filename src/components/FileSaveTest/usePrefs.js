@@ -14,16 +14,12 @@ const isFunction = async(backendfn) => {
 }
  
 export default function usePrefs({ 
-  // key, 
-  // values, 
-  backendfn, 
-  // tag 
+  backendfn,
 }) {
   const { 
     validator, 
     validationMessage, 
-    keyExists, 
-    setValidator 
+    keyExists,
   } = useValidation({ 
       backendStore: backendfn.type
     })
@@ -34,9 +30,7 @@ export default function usePrefs({
     useEffect(() => {
       storeConfig()
     }, [backendfn])
-
     
-
     const storeConfig = useCallback(() => {
       isFunction(backendfn).then((res) => {
         if(res){
@@ -71,7 +65,7 @@ export default function usePrefs({
         values,
         tag
     }) => {
-        console.log(storage,key,tag)
+        console.log(validator)
         try {
             const _storageCreate =  storageCreate(backendfn, values, tag, validator, key, keyExists)
             return _storageCreate
@@ -85,8 +79,9 @@ export default function usePrefs({
         key,
         tag
     }) => {
+        
         try {
-            const _deleteStorage =  deleteStorage(backendfn, validator, key, tag)
+            const _deleteStorage =  deleteStorage(backendfn, validator, key, tag, keyExists)
             return _deleteStorage
         } 
         catch (error) {

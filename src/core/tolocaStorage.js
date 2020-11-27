@@ -1,12 +1,11 @@
 import { backend, getInitialValue } from "./backend";
 import { WriteToFile } from "./writefile";
 import * as localForage from 'localforage';
-import { includes } from "lodash";
 
 export function storageCreate (
     res, values, tag, validator, key, keyExists
 ) {
-  keyExists()
+  keyExists({ key: key })
     switch (res.type) {
         case 'localStorage':
             backend(`${key}`, values)
@@ -16,7 +15,7 @@ export function storageCreate (
           // if(validator.localForage===false){
             localForage.setItem(`${key}`, values, (err) => {
               localForage.getItem(`${key}`, (err, value) => {
-                // keyExists({ key: key })
+                keyExists({ key: key })
                 return value
               })
             });
@@ -69,16 +68,18 @@ export function storageCreate (
   };
 
   export function deleteStorage (
-    res, validator, key , tag
+    res, validator, key , tag, keyExists
 ) {
+  keyExists({ key: key })
     switch (res.type) {
         case 'localStorage':
-          console.log(res, validator, key)
-            localStorage.removeItem(`${key}_default`);
+            localStorage.removeItem(`${key}`);
           break;
         case 'localForage':
             localForage.removeItem(key).then(function() {
               console.log(key,'is cleared!');
+              // snippet to delete the keys from tag
+
               // localForage.getItem(`__tag_${tag}`, (err, value) => {
               //   if(value!==null) {
               //     let _key = value
