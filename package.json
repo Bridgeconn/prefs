@@ -1,5 +1,5 @@
 {
-  "name": "prefs_rcl",
+  "name": "prefs-rcl",
   "description": "A Components for handling all preferences needed in an app.",
   "version": "0.1.1",
   "private": false,
