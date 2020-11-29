@@ -1,13 +1,13 @@
 
 ## Usage
-`import usePrefs from 'prefs-rcl'`
-* create multiple configs object 
+`import { usePrefs } from 'prefs-rcl'`
+* create a configs 
 `const localStorageConfig = {
   type: "localStorage",
   name: "profile",
   maxSize: "5MB",
 }`
-* Pass the config through `usePrefs` hook
+* Pass the config on to `usePrefs` hook
 `usePrefs({
             backendfn: localStorageConfig,
     })`
