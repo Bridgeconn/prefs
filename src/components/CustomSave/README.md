@@ -7,7 +7,7 @@ import { WriteToFile } from '../../core/writefile'
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { ProfileStyles } from '../FileSaveTest/useStyles/ProfileStyles';
-import { usePrefs } from 'prefs-rcl'
+import { usePrefs } from 'prefs-rcl';
 
 function Component() {
   const classes = ProfileStyles()

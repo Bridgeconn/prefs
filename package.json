@@ -3,10 +3,10 @@
   "description": "A Components for handling all preferences needed in an app.",
   "version": "0.1.1",
   "private": false,
-  "homepage": "https://github.com/Bridgeconn/prefs",
+  "homepage": "https://github.com/Ashersam/prefs",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Bridgeconn/prefs"
+    "url": "https://github.com/Ashersam/prefs"
   },
   "license": "MIT",
   "engines": {
