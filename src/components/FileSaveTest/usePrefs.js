@@ -65,7 +65,6 @@ export default function usePrefs({
         values,
         tag
     }) => {
-        console.log(validator)
         try {
             const _storageCreate =  storageCreate(backendfn, values, tag, validator, key, keyExists)
             return _storageCreate

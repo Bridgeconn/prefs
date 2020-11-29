@@ -1,6 +1,7 @@
 
 ## Usage
 `import { usePrefs } from 'prefs-rcl'`
+
 * create a configs 
 `const localStorageConfig = {
   type: "localStorage",
@@ -29,7 +30,7 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import PropTypes from 'prop-types';
 import { ProfileStyles } from './useStyles/ProfileStyles';
 import useSavetoLocal from './useSavetoFile'
-import { usePrefs } from 'prefs-rcl'
+import { usePrefs } from 'prefs-rcl';
 import * as helper from "../../core/backend"
 
 
