@@ -1,7 +1,7 @@
 {
   "name": "prefs-rcl",
   "description": "A Components for handling all preferences needed in an app.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "homepage": "https://github.com/Bridgeconn/prefs",
   "repository": {
@@ -18,6 +18,7 @@
     "deploy": "git push",
     "prepublishOnly": "rm -fr ./dist & babel ./src --out-dir ./dist -s inline",
     "predeploy": "yarn build",
+    "start": "styleguidist server",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
     "nyc:report": "nyc report --reporter=json-summary --reporter=text",

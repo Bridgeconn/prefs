@@ -1,13 +1,13 @@
 
 ## Usage
-`import usePrefs from 'prefs-rcl'`
-* create multiple configs object 
+`import { usePrefs } from 'prefs-rcl'`
+* create a configs 
 `const localStorageConfig = {
   type: "localStorage",
   name: "profile",
   maxSize: "5MB",
 }`
-* Pass the config through `usePrefs` hook
+* Pass the config on to `usePrefs` hook
 `usePrefs({
             backendfn: localStorageConfig,
     })`
@@ -29,7 +29,7 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import PropTypes from 'prop-types';
 import { ProfileStyles } from './useStyles/ProfileStyles';
 import useSavetoLocal from './useSavetoFile'
-import usePrefs from './usePrefs'
+import { usePrefs } from 'prefs-rcl'
 import * as helper from "../../core/backend"
 
 
