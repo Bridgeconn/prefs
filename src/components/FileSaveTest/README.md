@@ -1,7 +1,8 @@
 
 ## Usage
 `import { usePrefs } from 'prefs-rcl'`
-* create multiple configs object 
+
+* create a configs 
 `const localStorageConfig = {
   type: "localStorage",
   name: "profile",
